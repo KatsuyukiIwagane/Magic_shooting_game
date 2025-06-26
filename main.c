@@ -4,47 +4,16 @@
 
 
 int main(int argc, char *argv[]){
-    SDL_Surface *window;
-    SDL_Event event;
-    int running = 1;
-
-    if (SDL_Init(SDL_INIT_VIDEO) < 0){
-        printf("SDL初期化失敗\n");
-        exit(-1);
+    /** 初期化処理 **/
+    /* SDL */
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
+        return PrintError(SDL_GetError());
     }
 
-    if ((window = SDL_SetVideoMode(640, 480, 32, SDL_SWSURFACE)) == NULL){
-        printf("VideoMode初期化失敗\n");
-        exit(-1);
+    /* ウィンドウの作成 */
+    if(InitWindow("background.jpg") < 0) {
+        return PrintError("failed to initialize window");
     }
-    Player player;
-    initPlayer(&player, window);
-
-    while (running){
-        while(SDL_PollEvent(&event)){
-            if (event.type == SDL_QUIT){
-                running = 0;
-            }
-            if (event.type == SDL_KEYDOWN){
-                switch (event.key.keysym.sym) {
-                case SDLK_ESCAPE:
-                    running = 0;
-                    break;
-                }
-            }
-        }
-        Uint8 *keystate = SDL_GetKeyState(NULL);
-        updatePlayer(&player, keystate);
-        
-        SDL_WM_SetCaption("SDL Game", "Software Exp");
-        // SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL);
-        SDL_FillRect(window, NULL, SDL_MapRGB(window->format, 0, 0, 0));
-        drawPlayer(window, &player);
-        SDL_Flip(window);
-        SDL_Delay(16);
-    }
-
-
 
     SDL_Quit();
     return 0;

@@ -2,14 +2,23 @@
 #define PLAYER_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#define WD_Width 720 // ウィンドウの幅
+#define WD_Height 960 // ウィンドウの高さ
+
+//ゲームの情報
+typedef struct {
+    SDL_Window *window;
+    SDL_Renderer *render;
+} Game;
 
 typedef struct {
     int x, y, w, h;
     Uint32 color;
 } Player;
 
-void initPlayer(Player *player, SDL_Surface *window);
-void updatePlayer(Player *player, Uint8 *keystate);
-void drawPlayer(SDL_Surface *window, Player *player);
+extern Game game_info;
+
 
 #endif
