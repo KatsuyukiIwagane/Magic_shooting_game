@@ -13,7 +13,7 @@ Player player = {
 
 void InitPlayer() {
     // プレイヤーの画像を読み込む
-    player.texture = IMG_LoadTexture(game_info.render, "image/player.png");
+    player.texture = IMG_LoadTexture(game_info.render, "./image/player.png");
     if (player.texture == NULL) {
         PrintError(SDL_GetError());
     }

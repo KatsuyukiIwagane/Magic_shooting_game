@@ -63,7 +63,12 @@ void DrawEnemies() {
 }
 
 void DrawPlayer() {
-    // プレイヤーの描画処理を実装
+    if (player.texture != NULL) {
+        SDL_Rect dest = {player.x, player.y, player.width, player.height};
+        SDL_RenderCopy(game_info.render, player.texture, NULL, &dest);
+    } else {
+        PrintError("Player texture is not loaded");
+    }
 }
 
 void DrawBullets() {

@@ -12,8 +12,7 @@ void UpdateOblects() {
 
 
 void UpdatePlayer() {
-    // プレイヤーの更新処理をここに実装
-    // 例: プレイヤーの位置や状態の更新
+    
 }
 
 void UpdateEnemies() {

@@ -27,9 +27,11 @@ int main(int argc, char *argv[]){
             if (event.type == SDL_QUIT) {
                 running = false;
             }
+            else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+                HandleInput(&event); // 入力処理
+            }
         }
-        /* イベント処理 */
-        HandleInput(&event);
+
 
         /*オブジェクトの更新 */
         UpdateOblects();
