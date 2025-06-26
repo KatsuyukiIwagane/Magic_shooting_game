@@ -18,6 +18,8 @@ void HandleInput(SDL_Event* event) {
                 case SDLK_d:
                     player.move.right = true; // 右に移動
                     break;
+                case SDLK_SPACE:
+                    player.move.shoot = true; // 弾を撃つ
             }
             break;
         default:

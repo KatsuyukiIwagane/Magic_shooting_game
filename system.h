@@ -7,6 +7,8 @@
 #include <stdbool.h>
 #define WD_Width 720 // ウィンドウの幅
 #define WD_Height 960 // ウィンドウの高さ
+#define SHOOT_INTERVAL 30 // 弾を撃つ間隔
+#define MAX_BULLETS 255 // 最大弾数
 
 //ゲームの情報
 typedef struct {
@@ -67,12 +69,18 @@ extern Game game_info;
 extern Player player;
 extern Boss black; // ボス(ブラック)の情報
 
+extern Bullet nomal_bullets[MAX_BULLETS]; // 弾の配列
+extern int bullet_count; // 弾の数
+
 extern bool boss_appear; // ボスが出現するかどうかのフラグ
+
+extern int shoot_interval; // 弾を撃つ間隔
 
 extern int InitWindow(const char *bg_file);
 extern void InitPlayer(); // プレイヤーの初期化
 extern void InitEnemies(); // 敵の初期化
 extern void InitBoss(); // ボスの初期化
+extern void InitBullets(); // 弾の初期化
 
 extern int PrintError(const char* str);
 extern void HandleInput(SDL_Event* event);
@@ -85,6 +93,7 @@ extern void DrawPlayer(); // プレイヤーの描画
 extern void DrawBullets(); // 弾の描画
 extern void DrawUI(); // UIの描画
 extern void DrawBoss(); // ボスの描画
+
 
 extern void UpdatePlayer(); // プレイヤーの更新
 extern void UpdateEnemies(); // 敵の更新
