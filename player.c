@@ -7,6 +7,7 @@ Player player = {
     .height = 50, // プレイヤーの高さ
     .health = 100, // 初期ライフ
     .magic = 50, // 初期魔力
+    .speed = 2, // プレイヤーの移動速度
     .texture = NULL // プレイヤーの画像は後で読み込む
 };
 

@@ -12,7 +12,14 @@ void UpdateOblects() {
 
 
 void UpdatePlayer() {
-    
+    if (player.move.up) 
+        player.y -= player.speed; // 上に移動
+    if (player.move.down) 
+        player.y += player.speed; // 下に移動
+    if (player.move.left) 
+        player.x -= player.speed; // 左に移動
+    if (player.move.right) 
+        player.x += player.speed; // 右に移動
 }
 
 void UpdateEnemies() {
