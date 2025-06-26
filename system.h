@@ -9,8 +9,9 @@
 
 //ゲームの情報
 typedef struct {
-    SDL_Window *window;
-    SDL_Renderer *render;
+    SDL_Window* window;
+    SDL_Renderer* render;
+    SDL_Texture* background; // 背景画像
 } Game;
 
 typedef struct {
@@ -20,5 +21,7 @@ typedef struct {
 
 extern Game game_info;
 
+extern int InitWindow(const char *bg_file);
+extern int PrintError(const char* str);
 
 #endif

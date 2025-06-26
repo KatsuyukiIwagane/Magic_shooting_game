@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+Game game_info;
 
 
 int InitWindow(const char *bg_file){
@@ -20,4 +21,12 @@ int InitWindow(const char *bg_file){
     game_info.render = SDL_CreateRenderer(game_info.window, -1, 0);
     if (game_info.render == NULL)
         return PrintError(SDL_GetError());
+
+    /** 背景画像の読み込み **/
+    game_info.background = IMG_LoadTexture(game_info.render, bg_file);
+    if (game_info.background == NULL) {
+        SDL_DestroyRenderer(game_info.render);
+        SDL_DestroyWindow(game_info.window);
+        return PrintError(SDL_GetError());
+    }
 }
