@@ -6,7 +6,6 @@
 
 Game game_info;
 
-
 int InitWindow(const char *bg_file){
     /* SDL_image初期化 */
     if (IMG_INIT_PNG != IMG_Init(IMG_INIT_PNG)) {
@@ -29,4 +28,5 @@ int InitWindow(const char *bg_file){
         SDL_DestroyWindow(game_info.window);
         return PrintError(SDL_GetError());
     }
+    return 0;
 }
