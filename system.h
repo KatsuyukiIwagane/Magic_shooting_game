@@ -23,11 +23,34 @@ typedef struct {
     bool shoot; // 弾を撃つ
 } Move;
 
+typedef struct {
+    int x, y; // 弾の位置
+    int width, height; // 弾の幅と高さ
+    int speed; // 弾の移動速度
+    SDL_Texture* texture; // 弾の画像
+    Move move; // 弾の移動状態
+} Bullet;
+
 //敵の情報
 typedef struct {
     int x, y;
-    Uint32 color;
+    int width, height; // 敵の幅と高さ
+    int health; // 敵のライフ
+    int magic; // 敵の魔力
+    int speed; // 敵の移動速度
+    SDL_Texture* texture; // 敵の画像
+    Move move; // 移動状態
 } Enemy;
+
+typedef struct {
+    int x, y;
+    int width, height; // 敵の幅と高さ
+    int health; // 敵のライフ
+    int magic; // 敵の魔力
+    int speed; // 敵の移動速度
+    SDL_Texture* texture; // 敵の画像
+    Move move; // 移動状態
+} Boss;
 
 //プレイヤーの情報
 typedef struct {
@@ -42,18 +65,27 @@ typedef struct {
 
 extern Game game_info;
 extern Player player;
+extern Boss black; // ボス(ブラック)の情報
+
+extern bool boss_appear; // ボスが出現するかどうかのフラグ
 
 extern int InitWindow(const char *bg_file);
 extern void InitPlayer(); // プレイヤーの初期化
+extern void InitEnemies(); // 敵の初期化
+extern void InitBoss(); // ボスの初期化
+
 extern int PrintError(const char* str);
 extern void HandleInput(SDL_Event* event);
 extern void UpdateOblects();
 extern void RenderFrame(); // 全画面の描画
+
 extern void DrawBackground(); // 背景画像の描画
 extern void DrawEnemies(); // 敵の描画
 extern void DrawPlayer(); // プレイヤーの描画
 extern void DrawBullets(); // 弾の描画
 extern void DrawUI(); // UIの描画
+extern void DrawBoss(); // ボスの描画
+
 extern void UpdatePlayer(); // プレイヤーの更新
 extern void UpdateEnemies(); // 敵の更新
 extern void UpdateBullets(); // 弾の更新

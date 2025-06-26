@@ -3,8 +3,12 @@
 #include <SDL2/SDL_ttf.h>
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 
 Game game_info;
+
+bool boss_appear = true; // ボスが出現するかどうかのフラグ, 動作確認のためにtrueに設定
 
 int InitWindow(const char *bg_file){
     /* SDL_image初期化 */
@@ -50,6 +54,9 @@ void RenderFrame() {
     /* UIの描画 */
     DrawUI();
 
+    if (boss_appear)
+        DrawBoss();
+
     /* 描画の更新 */
     SDL_RenderPresent(game_info.render);
 }
@@ -77,4 +84,13 @@ void DrawBullets() {
 
 void DrawUI() {
     // UIの描画処理を実装
+}
+
+void DrawBoss() {
+    if (black.texture != NULL) {
+        SDL_Rect dest = {black.x, black.y, black.width, black.height};
+        SDL_RenderCopy(game_info.render, black.texture, NULL, &dest);
+    } else {
+        PrintError("Boss texture is not loaded");
+    }
 }

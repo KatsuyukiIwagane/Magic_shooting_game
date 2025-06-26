@@ -18,6 +18,8 @@ int main(int argc, char *argv[]){
 
     /* プレイヤーの初期化 */
     InitPlayer();
+    /* ボスの初期化 */
+    InitBoss();
 
     /* ゲームループ */
     SDL_Event event;
