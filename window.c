@@ -54,6 +54,10 @@ void RenderFrame() {
     /* UIの描画 */
     DrawUI();
 
+    /* サブUIの描画 */
+    DrawSubUI();
+
+    /* ボスの描画 */
     if (boss_appear)
         DrawBoss();
 

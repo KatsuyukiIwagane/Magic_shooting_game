@@ -9,6 +9,7 @@ void UpdateOblects() {
     UpdateEnemies();
     UpdateBullets();
     UpdateUI();
+    UpdateSubUI(); // サブUIの更新
 }
 
 
@@ -50,10 +51,17 @@ void UpdateBullets() {
             i--; // インデックスを調整
         }
     }
+    HitBoss(); // ボスに弾が当たったかどうかをチェック
 }
 
 void UpdateUI() {
     // UIの更新処理をここに実装
     // 例: スコアやライフの表示更新など
+    // 現在は何も実装していないが、必要に応じて追加すること
+}
+
+void UpdateSubUI() {
+    // サブUIの更新処理をここに実装
+    // 例: プレイヤーのライフや魔力の表示更新など
     // 現在は何も実装していないが、必要に応じて追加すること
 }

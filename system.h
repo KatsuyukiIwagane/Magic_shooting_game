@@ -93,11 +93,18 @@ extern void DrawPlayer(); // プレイヤーの描画
 extern void DrawBullets(); // 弾の描画
 extern void DrawUI(); // UIの描画
 extern void DrawBoss(); // ボスの描画
+extern void DrawSubUI(); // サブUIの描画
 
-
+extern void UpdateOblects(); // オブジェクトの更新
 extern void UpdatePlayer(); // プレイヤーの更新
 extern void UpdateEnemies(); // 敵の更新
 extern void UpdateBullets(); // 弾の更新
 extern void UpdateUI(); // UIの更新
+extern void UpdateBoss(); // ボスの更新
+extern void UpdateSubUI(); // サブUIの更新
+
+extern void HitEnemy(Enemy* enemy); // 敵にヒットした時の処理
+extern void HitBoss(); // ボスにヒットした時の処理
+extern void HitPlayer(Player* player); // プレイヤーにヒットした時の処理
 
 #endif

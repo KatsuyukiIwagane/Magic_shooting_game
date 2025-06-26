@@ -16,6 +16,13 @@ int main(int argc, char *argv[]){
         return PrintError("failed to initialize window");
     }
 
+    /* TTFの初期化 */
+    if (TTF_Init() == -1) {
+        SDL_DestroyRenderer(game_info.render);
+        SDL_DestroyWindow(game_info.window);
+        return PrintError(TTF_GetError());
+    }
+
     /* プレイヤーの初期化 */
     InitPlayer();
     /* ボスの初期化 */
