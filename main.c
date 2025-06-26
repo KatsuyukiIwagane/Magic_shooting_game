@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "player.h"
+#include "system.h"
 
 
 int main(int argc, char *argv[]){
