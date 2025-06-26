@@ -30,3 +30,46 @@ int InitWindow(const char *bg_file){
     }
     return 0;
 }
+
+void RenderFrame() {
+    /* 描画のクリア */
+    SDL_RenderClear(game_info.render);
+
+    /* 背景画像の描画 */
+    DrawBackground();
+
+    /* 敵の描画 */
+    DrawEnemies();
+
+    /* プレイヤーの描画 */
+    DrawPlayer();
+
+    /* 弾の描画 */
+    DrawBullets();
+
+    /* UIの描画 */
+    DrawUI();
+
+    /* 描画の更新 */
+    SDL_RenderPresent(game_info.render);
+}
+
+void DrawBackground() {
+    SDL_Rect dest = {0, 0, WD_Width, WD_Height};
+    SDL_RenderCopy(game_info.render, game_info.background, NULL, &dest);
+}
+
+void DrawEnemies() {
+}
+
+void DrawPlayer() {
+    // プレイヤーの描画処理を実装
+}
+
+void DrawBullets() {
+    // 弾の描画処理を実装
+}
+
+void DrawUI() {
+    // UIの描画処理を実装
+}

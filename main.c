@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
     }
 
     /* ウィンドウの作成 */
-    if(InitWindow("background.jpg") < 0) {
+    if(InitWindow("image/background.jpg") < 0) {
         return PrintError("failed to initialize window");
     }
 
@@ -25,11 +25,13 @@ int main(int argc, char *argv[]){
                 running = false;
             }
         }
+        /* イベント処理 */
+        HandleInput(&event);
 
-        /* レンダリング */
-        SDL_RenderClear(game_info.render);
-        SDL_RenderCopy(game_info.render, game_info.background, NULL, NULL);
-        SDL_RenderPresent(game_info.render);
+        /*オブジェクトの更新 */
+        UpdateOblects();
+        /* 描画処理 */
+        RenderFrame();
     }
 
     SDL_Quit();
