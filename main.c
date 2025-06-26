@@ -16,6 +16,9 @@ int main(int argc, char *argv[]){
         return PrintError("failed to initialize window");
     }
 
+    /* プレイヤーの初期化 */
+    InitPlayer();
+
     /* ゲームループ */
     SDL_Event event;
     bool running = true;

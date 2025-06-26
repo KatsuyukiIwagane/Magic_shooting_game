@@ -16,19 +16,24 @@ typedef struct {
 
 //敵の情報
 typedef struct {
-    int x, y, w, h;
+    int x, y;
     Uint32 color;
 } Enemy;
 
 //プレイヤーの情報
 typedef struct {
-    int x, y, w, h;
-    Uint32 color;
+    int x, y;
+    int width, height; // プレイヤーの幅と高さ
+    int health; // プレイヤーのライフ
+    int magic; // プレイヤーの魔力
+    SDL_Texture* texture; // プレイヤーの画像
 } Player;
 
 extern Game game_info;
+extern Player player;
 
 extern int InitWindow(const char *bg_file);
+extern void InitPlayer(); // プレイヤーの初期化
 extern int PrintError(const char* str);
 extern void HandleInput(SDL_Event* event);
 extern void UpdateOblects();
