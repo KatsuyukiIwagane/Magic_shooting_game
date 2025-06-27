@@ -11,7 +11,7 @@ void DrawSubUI() {
     SDL_Rect ui_rect = {WD_Width - 200, 0, 200, WD_Height};
     SDL_RenderFillRect(game_info.render, &ui_rect);
 
-    // 例: プレイヤーのライフを表示
+    // プレイヤーのライフを表示
     char health_text[50];
     sprintf(health_text, "Health: %d", player.health);
     SDL_Color color = {255, 255, 255, 255}; // 白色

@@ -1,13 +1,13 @@
 #include "system.h"
 
 Player player = {
-    .x = WD_Width / 2, // 初期位置は画面中央
-    .y = WD_Height - 100, // 画面下部から100px上
-    .width = 50, // プレイヤーの幅
-    .height = 50, // プレイヤーの高さ
-    .health = 100, // 初期ライフ
-    .magic = 50, // 初期魔力
-    .speed = 2, // プレイヤーの移動速度
+    .x = PLAY_WD_Width / 2, // プレイヤーの初期位置は画面中央
+    .y = PLAY_WD_Height - 100, // 画面下部から100px上
+    .width = PLAYER_WIDTH , // プレイヤーの幅
+    .height = PLAYER_HEIGHT, // プレイヤーの高さ
+    .health = PLAYER_HEALTH, // 初期ライフ
+    .magic = PLAYER_MAGIC, // 初期魔力
+    .speed = PLAYER_BASE_SPEED, // プレイヤーの移動速度
     .texture = NULL // プレイヤーの画像は後で読み込む
 };
 
@@ -20,6 +20,6 @@ void InitPlayer() {
     }
 
     // プレイヤーの初期位置とサイズを設定
-    player.x = WD_Width / 2 - player.width / 2; // 中央に配置
-    player.y = WD_Height - player.height - 10; // 画面下部から10px上
+    player.x = PLAY_WD_Width / 2 - player.width / 2; // 中央に配置
+    player.y = PLAY_WD_Height - 10; // 画面下部から10px上
 }

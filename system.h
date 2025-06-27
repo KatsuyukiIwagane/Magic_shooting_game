@@ -7,8 +7,18 @@
 #include <stdbool.h>
 #define WD_Width 720 // ウィンドウの幅
 #define WD_Height 960 // ウィンドウの高さ
+#define PLAY_WD_Width 520 //プレイウィンドウの幅
+#define PLAY_WD_Height 960 //プレイウィンドウの高さ
+
 #define SHOOT_INTERVAL 30 // 弾を撃つ間隔
 #define MAX_BULLETS 255 // 最大弾数
+
+#define PLAYER_WIDTH 50 // プレイヤーの幅
+#define PLAYER_HEIGHT 50 // プレイヤーの高さ
+#define PLAYER_HEALTH 3 // プレイヤーの初期ライフ
+#define PLAYER_MAGIC 50 // プレイヤーの初期魔力
+#define PLAYER_BASE_SPEED 2 // プレイヤーの移動速度
+
 
 //ゲームの情報
 typedef struct {

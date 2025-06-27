@@ -1,7 +1,7 @@
 #include "system.h"
 
 Boss black = {
-    .x = WD_Width / 2 - 50, // 初期位置は画面中央
+    .x = PLAY_WD_Width / 2 - 50, // 初期位置は画面中央
     .y = 100, // 画面上部から100px下
     .width = 100, // ボスの幅
     .height = 100, // ボスの高さ
@@ -20,6 +20,6 @@ void InitBoss() {
     }
 
     // ボスの初期位置とサイズを設定
-    black.x = WD_Width / 2 - black.width / 2; // 中央に配置
+    black.x = PLAY_WD_Width / 2 - black.width / 2; // 中央に配置
     black.y = 100; // 画面上部から100px下
 }
