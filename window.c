@@ -85,9 +85,9 @@ void DrawPlayer() {
 void DrawBullets() {
     if (bullet_count > 0) {
         for (int i = 0; i < bullet_count; i++) {
-            if (nomal_bullets[i].texture != NULL) {
-                SDL_Rect dest = {nomal_bullets[i].x, nomal_bullets[i].y, nomal_bullets[i].width, nomal_bullets[i].height};
-                SDL_RenderCopy(game_info.render, nomal_bullets[i].texture, NULL, &dest);
+            if (bullets[i].texture != NULL) {
+                SDL_Rect dest = {bullets[i].x, bullets[i].y, bullets[i].width, bullets[i].height};
+                SDL_RenderCopy(game_info.render, bullets[i].texture, NULL, &dest);
             } else {
                 PrintError("Bullet texture is not loaded");
             }

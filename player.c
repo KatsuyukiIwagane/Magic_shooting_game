@@ -8,7 +8,8 @@ Player player = {
     .health = PLAYER_HEALTH, // 初期ライフ
     .magic = PLAYER_MAGIC, // 初期魔力
     .speed = PLAYER_BASE_SPEED, // プレイヤーの移動速度
-    .texture = NULL // プレイヤーの画像は後で読み込む
+    .texture = NULL, // プレイヤーの画像は後で読み込む
+    .bullet_type = BULLET_NOMAL
 };
 
 

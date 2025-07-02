@@ -30,26 +30,15 @@ void UpdateEnemies() {
 }
 
 void UpdateBullets() {
-    if (player.move.shoot && bullet_count < MAX_BULLETS && shoot_interval % SHOOT_INTERVAL == 0) {
-        // 弾を撃つ処理
-        nomal_bullets[bullet_count].x = player.x + player.width / 2 - nomal_bullets[bullet_count].width / 2;
-        nomal_bullets[bullet_count].y = player.y;
-        bullet_count++;
-        shoot_interval = 1; // 弾を撃ったので間隔をリセット
-    }
-    else if (player.move.shoot && shoot_interval % SHOOT_INTERVAL != 0) {
-        shoot_interval++; // 弾を撃つ間隔を調整
-    }
-    for (int i = 0; i < bullet_count; i++) {
-        nomal_bullets[i].y -= nomal_bullets[i].speed; // 弾を上に移動
-        if (nomal_bullets[i].y < 0) {
-            // 画面外に出た弾は削除
-            for (int j = i; j < bullet_count - 1; j++) {
-                nomal_bullets[j] = nomal_bullets[j + 1];
-            }
-            bullet_count--;
-            i--; // インデックスを調整
-        }
+    switch (player.bullet_type) {
+    case BULLET_NOMAL:
+        shootNomalBullet();
+        break;
+    case BULLET_WAVE:
+        shootWaveBullet();
+        break;
+    default:
+        break;
     }
     HitBoss(); // ボスに弾が当たったかどうかをチェック
 }

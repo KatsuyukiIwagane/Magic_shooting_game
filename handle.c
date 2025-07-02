@@ -20,6 +20,18 @@ void HandleInput(SDL_Event* event) {
                     break;
                 case SDLK_SPACE:
                     player.move.shoot = true; // 弾を撃つ
+                    break;
+                case SDLK_c:
+                    switch (player.bullet_type) {
+                    case BULLET_NOMAL:
+                        player.bullet_type = BULLET_WAVE;
+                        break;
+                    case BULLET_WAVE:
+                        player.bullet_type = BULLET_NOMAL;
+                        break;
+                    default:
+                        break;
+                    }
             }
             break;
         default:

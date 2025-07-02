@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
+#include <math.h>
 #define WD_Width 720 // ウィンドウの幅
 #define WD_Height 960 // ウィンドウの高さ
 #define PLAY_WD_Width 520 //プレイウィンドウの幅
@@ -12,6 +13,7 @@
 
 #define SHOOT_INTERVAL 30 // 弾を撃つ間隔
 #define MAX_BULLETS 255 // 最大弾数
+#define WAVE_BULLET_MAX 5
 
 #define PLAYER_WIDTH 50 // プレイヤーの幅
 #define PLAYER_HEIGHT 50 // プレイヤーの高さ
@@ -19,6 +21,13 @@
 #define PLAYER_MAGIC 50 // プレイヤーの初期魔力
 #define PLAYER_BASE_SPEED 2 // プレイヤーの移動速度
 
+#define MY_PI 3.141592653589793
+
+//弾の種類
+typedef enum {
+    BULLET_NOMAL,
+    BULLET_WAVE
+} BulletType;
 
 //ゲームの情報
 typedef struct {
@@ -36,9 +45,10 @@ typedef struct {
 } Move;
 
 typedef struct {
-    int x, y; // 弾の位置
+    float x, y; // 弾の位置
     int width, height; // 弾の幅と高さ
     int speed; // 弾の移動速度
+    float angle;
     SDL_Texture* texture; // 弾の画像
     Move move; // 弾の移動状態
 } Bullet;
@@ -73,13 +83,14 @@ typedef struct {
     int speed; // プレイヤーの移動速度
     SDL_Texture* texture; // プレイヤーの画像
     Move move; // 移動状態
+    BulletType bullet_type; //弾のタイプ
 } Player;
 
 extern Game game_info;
 extern Player player;
 extern Boss black; // ボス(ブラック)の情報
 
-extern Bullet nomal_bullets[MAX_BULLETS]; // 弾の配列
+extern Bullet bullets[MAX_BULLETS]; // 弾の配列
 extern int bullet_count; // 弾の数
 
 extern bool boss_appear; // ボスが出現するかどうかのフラグ
@@ -116,5 +127,8 @@ extern void UpdateSubUI(); // サブUIの更新
 extern void HitEnemy(Enemy* enemy); // 敵にヒットした時の処理
 extern void HitBoss(); // ボスにヒットした時の処理
 extern void HitPlayer(Player* player); // プレイヤーにヒットした時の処理
+
+extern void shootNomalBullet();
+extern void shootWaveBullet();
 
 #endif
