@@ -37,6 +37,11 @@ typedef struct {
 } Game;
 
 typedef struct {
+    SDL_Texture* health_icon;
+    SDL_Texture* magic_icon;
+}UI;
+
+typedef struct {
     bool up; // 上に移動
     bool down; // 下に移動
     bool left; // 左に移動
@@ -102,6 +107,7 @@ extern void InitPlayer(); // プレイヤーの初期化
 extern void InitEnemies(); // 敵の初期化
 extern void InitBoss(); // ボスの初期化
 extern void InitBullets(); // 弾の初期化
+extern void InitUI(); //UI画像の初期化
 
 extern int PrintError(const char* str);
 extern void HandleInput(SDL_Event* event);

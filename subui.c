@@ -1,29 +1,38 @@
 #include "system.h"
 #include <SDL2/SDL_ttf.h>
 
+UI ui_info;
 
+void InitUI() {
+    ui_info.health_icon = IMG_LoadTexture(game_info.render, "./image/health.png");
+    SDL_SetTextureBlendMode(ui_info.health_icon, SDL_BLENDMODE_BLEND);
+    if (ui_info.health_icon == NULL) {
+        PrintError(SDL_GetError());
+    }
+}
 
 void DrawSubUI() {
     // UIの描画処理をここに実装
     // 右側に黒いエリアをつくり、プレイヤーのライフや魔力を表示する
 
-    TTF_Font* font = TTF_OpenFont("./font/arial.ttf", 24);
     SDL_SetRenderDrawColor(game_info.render, 0, 0, 0, 128); // 半透明の黒色
     SDL_Rect ui_rect = {WD_Width - 200, 0, 200, WD_Height};
     SDL_RenderFillRect(game_info.render, &ui_rect);
 
-    // プレイヤーのライフを表示
-    // 残機の画像×ライフ数のように表示する
-    char health_text[50];
-    sprintf(health_text, "health: %d", player.health);
-    SDL_Color color = {255, 255, 255, 255}; // 白色
-    SDL_Surface* surface = TTF_RenderText_Solid(font, health_text, color);
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(game_info.render, surface);
-    
+    // ライフアイコンのサイズ・間隔
+    int icon_size = 48;
+    int spacing = 10;
+    int start_x = WD_Width - 200 + 20;
+    int start_y = 300;
 
-    SDL_Rect rect = {WD_Width - 200, 300 , surface->w, surface->h};
-    SDL_RenderCopy(game_info.render, texture, NULL, &rect);
-
-    SDL_FreeSurface(surface);
-    SDL_DestroyTexture(texture);
+    // プレイヤーのライフ分アイコンを描画
+    for (int i = 0; i < player.health; i++) {
+        SDL_Rect dst = {
+            start_x + i * (icon_size + spacing),
+            start_y,
+            icon_size,
+            icon_size
+        };
+        SDL_RenderCopy(game_info.render, ui_info.health_icon, NULL, &dst);
+    }
 }

@@ -29,6 +29,8 @@ int main(int argc, char *argv[]){
     InitBoss();
     /* 弾の初期化 */
     InitBullets();
+    /* UI画像の初期化 */
+    InitUI();
 
     /* ゲームループ */
     SDL_Event event;
