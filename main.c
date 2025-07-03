@@ -25,6 +25,8 @@ int main(int argc, char *argv[]){
 
     /* プレイヤーの初期化 */
     InitPlayer();
+    /* プレイヤーの初期化 */
+    InitEnemies();
     /* ボスの初期化 */
     InitBoss();
     /* 弾の初期化 */

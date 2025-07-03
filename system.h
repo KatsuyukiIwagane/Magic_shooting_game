@@ -21,12 +21,26 @@
 #define PLAYER_MAGIC 600 // プレイヤーの初期魔力
 #define PLAYER_BASE_SPEED 2 // プレイヤーの移動速度
 
+#define MAX_ENEMY 50 //最大敵数
+#define ENEMY_WIDTH 50 // 敵の幅
+#define ENEMY_HEIGHT 50 // 敵の高さ
+#define ENEMY_HEALTH 3 // 敵のライフ
+#define ENEMY_BASE_SPEED 1 // 敵の移動速度
+
+
 #define MY_PI 3.141592653589793
+
+//敵の種類
+typedef enum {
+    ENEMY_CROW, //烏
+    ENEMY_TYPE_COUNT //敵の種類数
+}EnemyType;
+
 
 //弾の種類
 typedef enum {
-    BULLET_NOMAL,
-    BULLET_WAVE
+    BULLET_NOMAL, //直線攻撃
+    BULLET_WAVE //波状攻撃
 } BulletType;
 
 //ゲームの情報
@@ -63,8 +77,8 @@ typedef struct {
     int x, y;
     int width, height; // 敵の幅と高さ
     int health; // 敵のライフ
-    int magic; // 敵の魔力
     int speed; // 敵の移動速度
+    int direction;
     SDL_Texture* texture; // 敵の画像
     Move move; // 移動状態
 } Enemy;
@@ -92,9 +106,10 @@ typedef struct {
     BulletType bullet_type; //弾のタイプ
 } Player;
 
-extern Game game_info;
-extern Player player;
-extern Boss black; // ボス(ブラック)の情報
+extern Game game_info; // ゲームの情報
+extern Player player; // プレイヤーの情報
+extern Boss black; // ボス(黒色)の情報
+extern Enemy enemiy_crows[MAX_ENEMY]; //敵(烏)の情報
 
 extern Bullet bullets[MAX_BULLETS]; // 弾の配列
 extern int bullet_count; // 弾の数
@@ -131,7 +146,7 @@ extern void UpdateUI(); // UIの更新
 extern void UpdateBoss(); // ボスの更新
 extern void UpdateSubUI(); // サブUIの更新
 
-extern void HitEnemy(Enemy* enemy); // 敵にヒットした時の処理
+extern void HitEnemy(); // 敵にヒットした時の処理
 extern void HitBoss(); // ボスにヒットした時の処理
 extern void HitPlayer(Player* player); // プレイヤーにヒットした時の処理
 

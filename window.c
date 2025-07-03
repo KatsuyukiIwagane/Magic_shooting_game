@@ -74,6 +74,15 @@ void DrawBackground() {
 }
 
 void DrawEnemies() {
+    for (int i = 0; i < MAX_ENEMY; i++) { //TODO: 烏しかでないよ～
+        SDL_Rect dst = {
+            enemiy_crows[i].x,
+            enemiy_crows[i].y,
+            enemiy_crows[i].width,
+            enemiy_crows[i].height
+        };
+        SDL_RenderCopy(game_info.render, enemiy_crows[i].texture, NULL, &dst);
+    }
 }
 
 void DrawPlayer() {

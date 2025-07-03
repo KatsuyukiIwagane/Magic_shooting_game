@@ -23,3 +23,7 @@ void InitBoss() {
     black.x = PLAY_WD_Width / 2 - black.width / 2; // 中央に配置
     black.y = 100; // 画面上部から100px下
 }
+
+void BossAction() {
+    //ボスの行動
+}
