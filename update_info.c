@@ -53,6 +53,11 @@ void UpdateBullets() {
     }
     HitEnemy(); //敵に弾が当たったかどうかチェック
     HitBoss(); // ボスに弾が当たったかどうかをチェック
+
+    //敵の弾打ち処理
+    enemyShootBullets();
+
+    HitPlayer();
 }
 
 void UpdateUI() {

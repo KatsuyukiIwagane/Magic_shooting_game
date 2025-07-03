@@ -21,7 +21,7 @@
 #define PLAYER_MAGIC 600 // プレイヤーの初期魔力
 #define PLAYER_BASE_SPEED 2 // プレイヤーの移動速度
 
-#define MAX_ENEMY 50 //最大敵数
+#define MAX_ENEMY 15 //最大敵数
 #define ENEMY_WIDTH 50 // 敵の幅
 #define ENEMY_HEIGHT 50 // 敵の高さ
 #define ENEMY_HEALTH 3 // 敵のライフ
@@ -78,7 +78,10 @@ typedef struct {
     int width, height; // 敵の幅と高さ
     int health; // 敵のライフ
     int speed; // 敵の移動速度
-    int direction;
+    int direction; // 敵の方向
+    int shoot_timer; // 次の発射までのカウント
+    int shoot_count; // 連続で撃った弾数
+    int cooldown_timer; // クールダウン時間
     SDL_Texture* texture; // 敵の画像
     Move move; // 移動状態
 } Enemy;
@@ -113,6 +116,8 @@ extern Enemy enemiy_crows[MAX_ENEMY]; //敵(烏)の情報
 
 extern Bullet bullets[MAX_BULLETS]; // 弾の配列
 extern int bullet_count; // 弾の数
+extern Bullet enemy_bullets[MAX_BULLETS]; //敵の弾の配列
+extern int enemy_bullet_count; //敵の弾の数
 
 extern bool boss_appear; // ボスが出現するかどうかのフラグ
 
@@ -148,13 +153,15 @@ extern void UpdateSubUI(); // サブUIの更新
 
 extern void HitEnemy(); // 敵にヒットした時の処理
 extern void HitBoss(); // ボスにヒットした時の処理
-extern void HitPlayer(Player* player); // プレイヤーにヒットした時の処理
+extern void HitPlayer(); // プレイヤーにヒットした時の処理
 
 extern void shootNomalBullet();
 extern void shootWaveBullet();
+extern void enemyShootBullets();
 
 extern void consumeMagicpoint(BulletType type);
 
 extern void DrawMPErrorMessage();
+extern void DrawGameOver();
 
 #endif

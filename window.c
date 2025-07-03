@@ -64,6 +64,9 @@ void RenderFrame() {
     if (player.mp_short)
         DrawMPErrorMessage();
 
+    if (player.health <= 0)
+        DrawGameOver();
+
     /* 描画の更新 */
     SDL_RenderPresent(game_info.render);
 }
@@ -95,6 +98,7 @@ void DrawPlayer() {
 }
 
 void DrawBullets() {
+    // 弾を描画
     if (bullet_count > 0) {
         for (int i = 0; i < bullet_count; i++) {
             if (bullets[i].texture != NULL) {
@@ -103,6 +107,15 @@ void DrawBullets() {
             } else {
                 PrintError("Bullet texture is not loaded");
             }
+        }
+    }
+    // 敵の弾を描画
+    for (int i = 0; i < enemy_bullet_count; i++) {
+        if (enemy_bullets[i].texture != NULL) {
+            SDL_Rect dest = {enemy_bullets[i].x, enemy_bullets[i].y, enemy_bullets[i].width, enemy_bullets[i].height};
+            SDL_RenderCopy(game_info.render, enemy_bullets[i].texture, NULL, &dest);
+        } else {
+            PrintError("Enemy bullet texture is not loaded");
         }
     }
 }
