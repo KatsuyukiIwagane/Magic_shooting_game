@@ -27,6 +27,8 @@ void InitBullets() {
 
 void shootNomalBullet() {
     if (player.move.shoot && bullet_count < MAX_BULLETS && shoot_interval % SHOOT_INTERVAL == 0) {
+        consumeMagicpoint(player.bullet_type);
+        if (!player.move.shoot) return;  // MP不足でキャンセルされたら以降スキップ
         // 弾を撃つ処理
         bullets[bullet_count].x = player.x + player.width / 2 - bullets[bullet_count].width / 2;
         bullets[bullet_count].y = player.y;
@@ -52,6 +54,8 @@ void shootNomalBullet() {
 
 void shootWaveBullet() {
     if (player.move.shoot && bullet_count + WAVE_BULLET_MAX <= MAX_BULLETS && shoot_interval >= SHOOT_INTERVAL) {
+    consumeMagicpoint(player.bullet_type);
+    if (!player.move.shoot) return;  // MP不足でキャンセルされたら以降スキップ
         float base_angle = -MY_PI / 2;  // 真上（270度）
         float spread = MY_PI / 12;       // 扇の広がり（±11.25度）
     for (int i = -2; i <= 2; i++) {

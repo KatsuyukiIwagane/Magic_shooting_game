@@ -18,7 +18,7 @@
 #define PLAYER_WIDTH 50 // プレイヤーの幅
 #define PLAYER_HEIGHT 50 // プレイヤーの高さ
 #define PLAYER_HEALTH 3 // プレイヤーの初期ライフ
-#define PLAYER_MAGIC 50 // プレイヤーの初期魔力
+#define PLAYER_MAGIC 600 // プレイヤーの初期魔力
 #define PLAYER_BASE_SPEED 2 // プレイヤーの移動速度
 
 #define MY_PI 3.141592653589793
@@ -85,6 +85,7 @@ typedef struct {
     int width, height; // プレイヤーの幅と高さ
     int health; // プレイヤーのライフ
     int magic; // プレイヤーの魔力
+    bool mp_short; //プレイヤーが魔力不足かどうか
     int speed; // プレイヤーの移動速度
     SDL_Texture* texture; // プレイヤーの画像
     Move move; // 移動状態
@@ -136,5 +137,9 @@ extern void HitPlayer(Player* player); // プレイヤーにヒットした時�
 
 extern void shootNomalBullet();
 extern void shootWaveBullet();
+
+extern void consumeMagicpoint(BulletType type);
+
+extern void DrawMPErrorMessage();
 
 #endif

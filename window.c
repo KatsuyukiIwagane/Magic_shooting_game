@@ -61,6 +61,9 @@ void RenderFrame() {
     if (boss_appear)
         DrawBoss();
 
+    if (player.mp_short)
+        DrawMPErrorMessage();
+
     /* 描画の更新 */
     SDL_RenderPresent(game_info.render);
 }

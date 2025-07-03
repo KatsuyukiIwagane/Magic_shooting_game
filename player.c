@@ -7,6 +7,7 @@ Player player = {
     .height = PLAYER_HEIGHT, // プレイヤーの高さ
     .health = PLAYER_HEALTH, // 初期ライフ
     .magic = PLAYER_MAGIC, // 初期魔力
+    .mp_short = false, //魔力不足でない
     .speed = PLAYER_BASE_SPEED, // プレイヤーの移動速度
     .texture = NULL, // プレイヤーの画像は後で読み込む
     .bullet_type = BULLET_NOMAL
