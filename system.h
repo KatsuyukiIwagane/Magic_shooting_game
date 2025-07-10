@@ -103,6 +103,7 @@ typedef struct {
     int health; // プレイヤーのライフ
     int magic; // プレイヤーの魔力
     bool mp_short; //プレイヤーが魔力不足かどうか
+    bool gameover;
     int speed; // プレイヤーの移動速度
     SDL_Texture* texture; // プレイヤーの画像
     Move move; // 移動状態

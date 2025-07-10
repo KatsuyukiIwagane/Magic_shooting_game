@@ -44,6 +44,7 @@ void InitBullets() {
 }
 
 void shootNomalBullet() {
+    if (player.gameover) return;
     if (player.move.shoot && bullet_count < MAX_BULLETS && shoot_interval % SHOOT_INTERVAL == 0) {
         consumeMagicpoint(player.bullet_type);
         if (!player.move.shoot) return;  // MP不足でキャンセルされたら以降スキップ
@@ -73,6 +74,7 @@ void shootNomalBullet() {
 
 
 void shootWaveBullet() {
+    if (player.gameover) return;
     if (player.move.shoot && bullet_count + WAVE_BULLET_MAX <= MAX_BULLETS && shoot_interval >= SHOOT_INTERVAL) {
     consumeMagicpoint(player.bullet_type);
     if (!player.move.shoot) return;  // MP不足でキャンセルされたら以降スキップ
@@ -134,7 +136,7 @@ void enemyShootBullets() {
             b->y = e->y + e->height;
             b->width = 20;
             b->height = 20;
-            b->speed = 1;
+            b->speed = 2;
             b->angle = MY_PI / 2;  // 真下に発射
             b->texture = enemy_bullets->texture;
         }

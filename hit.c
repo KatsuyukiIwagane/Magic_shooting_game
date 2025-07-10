@@ -93,6 +93,7 @@ void HitPlayer() {
             // プレイヤーのライフが0以下なら処理
             if (player.health <= 0) {
                 player.health = 0;
+                player.gameover = true;
                 player.x = -990;
                 player.y = -990;
             }

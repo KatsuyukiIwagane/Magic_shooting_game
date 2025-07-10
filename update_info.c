@@ -33,9 +33,15 @@ void UpdateEnemies() {
         if (enemiy_crows[i].health <= 0) continue;
 
         enemiy_crows[i].x += enemiy_crows[i].direction * enemiy_crows[i].speed;
+        enemiy_crows[i].y += enemiy_crows[i].speed;
+
+        //画面最後にいったら一旦はループ（TODO: 完成版ではKILL）
+        if (enemiy_crows[i].y > PLAY_WD_Height)
+            enemiy_crows[i].y = 0 - enemiy_crows[i].height;
 
         // 画面の端に当たったら反転
-        if (enemiy_crows[i].x <= 0 || enemiy_crows[i].x + enemiy_crows[i].width >= PLAY_WD_Width)            enemiy_crows[i].direction *= -1;
+        if (enemiy_crows[i].x <= 0 || enemiy_crows[i].x + enemiy_crows[i].width >= PLAY_WD_Width)
+            enemiy_crows[i].direction *= -1;
             
     }
 }
