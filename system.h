@@ -30,6 +30,13 @@
 
 #define MY_PI 3.141592653589793
 
+typedef enum {
+    MENU_NONE,
+    MENU_START,
+    MENU_CONTINUE,
+    MENU_QUIT
+}MenuSelection;
+
 //敵の種類
 typedef enum {
     ENEMY_CROW, //烏
@@ -164,5 +171,7 @@ extern void consumeMagicpoint(BulletType type);
 
 extern void DrawMPErrorMessage();
 extern void DrawGameOver();
+
+MenuSelection ShowStartMenu();
 
 #endif

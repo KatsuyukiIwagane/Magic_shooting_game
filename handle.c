@@ -32,10 +32,10 @@ void HandleInput(SDL_Event* event) {
                     default:
                         break;
                     }
-            }
-            break;
-        default:
-            break;
+                }
+                break;
+            default:
+                break;
         case SDL_KEYUP:
             switch (event->key.keysym.sym) {
                 case SDLK_w:
@@ -58,4 +58,61 @@ void HandleInput(SDL_Event* event) {
             }
         
     }
+}
+
+MenuSelection ShowStartMenu() {
+    TTF_Font* font = TTF_OpenFont("./font/arial.ttf", 36);
+    if (!font) {
+        PrintError("Font load failed");
+        return MENU_QUIT;
+    }
+
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Event event;
+    MenuSelection selection = MENU_NONE;
+
+    while (selection == MENU_NONE) {
+        SDL_SetRenderDrawColor(game_info.render, 0, 0, 0, 255);
+        SDL_RenderClear(game_info.render);
+
+        const char* title = "=== Select Menu ===";
+        const char* start = "Press S: START";
+        const char* cont = "Press C: CONTINUE";
+        const char* quit = "Press Q: QUIT";
+
+        const char* lines[] = {title, start, cont, quit};
+        for (int i = 0; i < 4; i++) {
+            SDL_Surface* surface = TTF_RenderUTF8_Blended(font, lines[i], white);
+            SDL_Texture* texture = SDL_CreateTextureFromSurface(game_info.render, surface);
+            SDL_Rect dest = {
+                (WD_Width - surface->w) / 2,
+                150 + i * 60,
+                surface->w,
+                surface->h
+            };
+            SDL_RenderCopy(game_info.render, texture, NULL, &dest);
+            SDL_FreeSurface(surface);
+            SDL_DestroyTexture(texture);
+        }
+
+        SDL_RenderPresent(game_info.render);
+
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                selection = MENU_QUIT;
+            }
+            if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                    case SDLK_s: selection = MENU_START; break;
+                    case SDLK_c: selection = MENU_CONTINUE; break;
+                    case SDLK_q: selection = MENU_QUIT; break;
+                }
+            }
+        }
+
+        SDL_Delay(16);  // 軽負荷でループ
+    }
+
+    TTF_CloseFont(font);
+    return selection;
 }

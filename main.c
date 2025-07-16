@@ -23,6 +23,12 @@ int main(int argc, char *argv[]){
         return PrintError(TTF_GetError());
     }
 
+    MenuSelection selected = ShowStartMenu();
+    if (selected != MENU_START) {
+        SDL_Quit();
+        return 0;
+    }
+
     /* プレイヤーの初期化 */
     InitPlayer();
     /* プレイヤーの初期化 */
