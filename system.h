@@ -27,15 +27,44 @@
 #define ENEMY_HEALTH 3 // 敵のライフ
 #define ENEMY_BASE_SPEED 1 // 敵の移動速度
 
+#define MAX_SPELL_LENGTH 32 // 最大スペルの長さ
+
 
 #define MY_PI 3.141592653589793
 
+ 
+
+//メインメニューの選択肢
 typedef enum {
     MENU_NONE,
     MENU_START,
     MENU_CONTINUE,
     MENU_QUIT
 }MenuSelection;
+
+//スペルの種類
+typedef enum {
+    SPELL_NONE,
+    SPELL_HEAL,
+    SPELL_ELIMINATION
+} SpellType;
+
+//スペルの入力状態
+typedef struct {
+    char buffer[MAX_SPELL_LENGTH];
+    int length;
+} SpellInput;
+
+//スペルの状態
+typedef struct {
+    const char* name;
+    bool activated;
+} SpellStatus;
+
+#define SPELL_COUNT 2
+extern SpellStatus spell_list[SPELL_COUNT];
+
+extern SpellInput current_spell; // 現在のスペル入力状態
 
 //敵の種類
 typedef enum {
@@ -150,6 +179,8 @@ extern void DrawBullets(); // 弾の描画
 extern void DrawUI(); // UIの描画
 extern void DrawBoss(); // ボスの描画
 extern void DrawSubUI(); // サブUIの描画
+extern void DrawSpellInput(); // スペル入力の描画
+extern void DrawSpellList(SDL_Renderer* renderer); // スペルリストの描画
 
 extern void UpdateOblects(); // オブジェクトの更新
 extern void UpdatePlayer(); // プレイヤーの更新
@@ -171,6 +202,10 @@ extern void consumeMagicpoint(BulletType type);
 
 extern void DrawMPErrorMessage();
 extern void DrawGameOver();
+
+extern void HandleSpellInput(const SDL_Event* event);
+extern SpellType MatchSpell(const char* input);
+extern void ExecuteSpell(SpellType spell);
 
 MenuSelection ShowStartMenu();
 

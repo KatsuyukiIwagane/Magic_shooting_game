@@ -66,7 +66,8 @@ void RenderFrame() {
 
     if (player.health <= 0)
         DrawGameOver();
-
+    
+    DrawSpellList(game_info.render);
     /* 描画の更新 */
     SDL_RenderPresent(game_info.render);
 }
@@ -130,5 +131,29 @@ void DrawBoss() {
         SDL_RenderCopy(game_info.render, black.texture, NULL, &dest);
     } else {
         PrintError("Boss texture is not loaded");
+    }
+}
+
+
+void DrawSpellList(SDL_Renderer* renderer) {
+
+    TTF_Font* font = TTF_OpenFont("./font/arial.ttf", 24);
+    int start_x = WD_Width - 180;
+    int start_y = 20;
+    int line_height = 32;
+
+    for (int i = 0; i < SPELL_COUNT; i++) {
+        SDL_Color color = spell_list[i].activated
+                          ? (SDL_Color){255, 255, 255, 255} // 白
+                          : (SDL_Color){150, 150, 150, 255}; // 灰色
+
+        SDL_Surface* surface = TTF_RenderText_Blended(font, spell_list[i].name, color);
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+        SDL_Rect dst = {start_x, start_y + i * line_height, surface->w, surface->h};
+        SDL_RenderCopy(renderer, texture, NULL, &dst);
+
+        SDL_FreeSurface(surface);
+        SDL_DestroyTexture(texture);
     }
 }

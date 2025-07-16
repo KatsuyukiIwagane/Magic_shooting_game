@@ -50,6 +50,7 @@ int main(int argc, char *argv[]){
             }
             else if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
                 HandleInput(&event); // 入力処理
+                HandleSpellInput(&event); // スペル入力処理
             }
         }
 
