@@ -17,7 +17,7 @@ void InitBullets() {
         bullets[i].y = 0;
         bullets[i].width = 25; // 弾の幅
         bullets[i].height = 25; // 弾の高さ
-        bullets[i].speed = 3; // 弾の移動速度
+        bullets[i].speed = 180; // 弾の移動速度
         bullets[i].texture = bullet_texture;
         if (bullets[i].texture == NULL) {
             PrintError(SDL_GetError());
@@ -32,7 +32,7 @@ void InitBullets() {
         enemy_bullets[i].y = -999;
         enemy_bullets[i].width = 15; // 弾の幅
         enemy_bullets[i].height = 15; // 弾の高さ
-        enemy_bullets[i].speed = 3; // 弾の移動速度
+        enemy_bullets[i].speed = 180; // 弾の移動速度
         enemy_bullets[i].texture = enemy_bullet_texture;
         if (bullets[i].texture == NULL) {
             PrintError(SDL_GetError());
@@ -43,9 +43,9 @@ void InitBullets() {
 
 }
 
-void shootNomalBullet() {
+void shootNomalBullet(double deltaTime) {
     if (player.gameover) return;
-    if (player.move.shoot && bullet_count < MAX_BULLETS && shoot_interval % SHOOT_INTERVAL == 0) {
+    if (player.move.shoot && bullet_count < MAX_BULLETS && shoot_timer >= SHOOT_INTERVAL) {
         consumeMagicpoint(player.bullet_type);
         if (!player.move.shoot) return;  // MP不足でキャンセルされたら以降スキップ
         float base_angle = -MY_PI / 2; 
@@ -54,13 +54,13 @@ void shootNomalBullet() {
         bullets[bullet_count].x = player.x + player.width / 2 - bullets[bullet_count].width / 2;
         bullets[bullet_count].y = player.y;
         bullet_count++;
-        shoot_interval = 1; // 弾を撃ったので間隔をリセット
+        shoot_timer = 0; // 弾を撃ったので間隔をリセット
     }
-    else if (player.move.shoot && shoot_interval % SHOOT_INTERVAL != 0) {
-        shoot_interval++; // 弾を撃つ間隔を調整
+    else if (player.move.shoot && shoot_timer < SHOOT_INTERVAL) {
+        shoot_timer += deltaTime; // 弾を撃つ間隔を調整
     }
     for (int i = 0; i < bullet_count; i++) {
-        bullets[i].y -= bullets[i].speed; // 弾を上に移動
+        bullets[i].y -= bullets[i].speed * deltaTime; // 弾を上に移動
         if (bullets[i].y < 0) {
             // 画面外に出た弾は削除
             for (int j = i; j < bullet_count - 1; j++) {
@@ -73,9 +73,9 @@ void shootNomalBullet() {
 }
 
 
-void shootWaveBullet() {
+void shootWaveBullet(double deltaTime) {
     if (player.gameover) return;
-    if (player.move.shoot && bullet_count + WAVE_BULLET_MAX <= MAX_BULLETS && shoot_interval >= SHOOT_INTERVAL) {
+    if (player.move.shoot && bullet_count + WAVE_BULLET_MAX <= MAX_BULLETS && shoot_timer >= SHOOT_INTERVAL) {
     consumeMagicpoint(player.bullet_type);
     if (!player.move.shoot) return;  // MP不足でキャンセルされたら以降スキップ
         float base_angle = -MY_PI / 2;  // 真上（270度）
@@ -88,17 +88,17 @@ void shootWaveBullet() {
             b->y = player.y;
             b->width = 25;
             b->height = 25;
-            b->speed = 3;
+            b->speed = 180;
             b->angle = angle;
             b->texture = bullets->texture;
         }
-        shoot_interval = 0;
+        shoot_timer = 0;
     } else {
-        shoot_interval++;
+        shoot_timer += deltaTime;
     }
     for (int i = 0; i < bullet_count; i++) {
-        bullets[i].x += cos(bullets[i].angle) * bullets[i].speed;
-        bullets[i].y += sin(bullets[i].angle) * bullets[i].speed;
+        bullets[i].x += cos(bullets[i].angle) * bullets[i].speed * deltaTime;
+        bullets[i].y += sin(bullets[i].angle) * bullets[i].speed * deltaTime;
 
         if (bullets[i].y < -bullets[i].height || bullets[i].x < -bullets[i].width || bullets[i].x > WD_Width) {
             // 画面外に出たら削除
@@ -112,7 +112,7 @@ void shootWaveBullet() {
 }
 
 
-void enemyShootBullets() {
+void enemyShootBullets(double deltaTime) {
     for (int i = 0; i < MAX_ENEMY; i++) {
         Enemy* e = &enemiy_crows[i];
 
@@ -141,7 +141,7 @@ void enemyShootBullets() {
             b->y = e->y + e->height;
             b->width = 20;
             b->height = 20;
-            b->speed = 2;
+            b->speed = 120;
             b->angle = MY_PI / 2;  // 真下に発射
             b->texture = enemy_bullets->texture;
         }
@@ -158,8 +158,8 @@ void enemyShootBullets() {
 
     //弾を打つ処理
     for (int i = 0; i < enemy_bullet_count; i++) {
-        enemy_bullets[i].x += cos(enemy_bullets[i].angle) * enemy_bullets[i].speed;
-        enemy_bullets[i].y += sin(enemy_bullets[i].angle) * enemy_bullets[i].speed;
+        enemy_bullets[i].x += cos(enemy_bullets[i].angle) * enemy_bullets[i].speed * deltaTime;
+        enemy_bullets[i].y += sin(enemy_bullets[i].angle) * enemy_bullets[i].speed * deltaTime;
 
         if (enemy_bullets[i].y > PLAY_WD_Height) {
             // 画面外なら削除
@@ -171,3 +171,4 @@ void enemyShootBullets() {
         }
     }
 }
+

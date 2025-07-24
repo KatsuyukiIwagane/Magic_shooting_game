@@ -11,7 +11,7 @@
 #define PLAY_WD_Width 520 //プレイウィンドウの幅
 #define PLAY_WD_Height 960 //プレイウィンドウの高さ
 
-#define SHOOT_INTERVAL 30 // 弾を撃つ間隔
+#define SHOOT_INTERVAL 0.3 // 弾を撃つ間隔
 #define MAX_BULLETS 255 // 最大弾数
 #define WAVE_BULLET_MAX 5
 
@@ -19,13 +19,13 @@
 #define PLAYER_HEIGHT 50 // プレイヤーの高さ
 #define PLAYER_HEALTH 3 // プレイヤーの初期ライフ
 #define PLAYER_MAGIC 600 // プレイヤーの初期魔力
-#define PLAYER_BASE_SPEED 2 // プレイヤーの移動速度
+#define PLAYER_BASE_SPEED 120 // プレイヤーの移動速度
 
 #define MAX_ENEMY 50 //最大敵数
 #define ENEMY_WIDTH 50 // 敵の幅
 #define ENEMY_HEIGHT 50 // 敵の高さ
 #define ENEMY_HEALTH 3 // 敵のライフ
-#define ENEMY_BASE_SPEED 1 // 敵の移動速度
+#define ENEMY_BASE_SPEED 60 // 敵の移動速度
 
 #define MAX_SPELL_LENGTH 32 // 最大スペルの長さ
 
@@ -157,6 +157,9 @@ extern Player player; // プレイヤーの情報
 extern Boss black; // ボス(黒色)の情報
 extern Enemy enemiy_crows[MAX_ENEMY]; //敵(烏)の情報
 
+extern float background_scroll_y;
+extern const int background_scroll_speed;
+
 extern Bullet bullets[MAX_BULLETS]; // 弾の配列
 extern int bullet_count; // 弾の数
 extern Bullet enemy_bullets[MAX_BULLETS]; //敵の弾の配列
@@ -164,7 +167,7 @@ extern int enemy_bullet_count; //敵の弾の数
 
 extern bool boss_appear; // ボスが出現するかどうかのフラグ
 
-extern int shoot_interval; // 弾を撃つ間隔
+extern float shoot_timer; // 弾を撃つ間隔
 
 #define MAX_STAGE_EVENTS 1024
 extern StageEvent stage_events[MAX_STAGE_EVENTS];
@@ -179,6 +182,7 @@ extern void InitEnemies(); // 敵の初期化
 extern void InitBoss(); // ボスの初期化
 extern void InitBullets(); // 弾の初期化
 extern void InitUI(); //UI画像の初期化
+extern void InitEnemyTextures(); // 敵のテクスチャを初期化
 
 extern int PrintError(const char* str);
 extern void HandleInput(SDL_Event* event);
@@ -195,21 +199,22 @@ extern void DrawSubUI(); // サブUIの描画
 extern void DrawSpellInput(); // スペル入力の描画
 extern void DrawSpellList(SDL_Renderer* renderer); // スペルリストの描画
 
-extern void UpdateOblects(); // オブジェクトの更新
-extern void UpdatePlayer(); // プレイヤーの更新
-extern void UpdateEnemies(); // 敵の更新
-extern void UpdateBullets(); // 弾の更新
+extern void UpdateOblects(double deltaTime); // オブジェクトの更新
+extern void UpdatePlayer(double deltaTime); // プレイヤーの更新
+extern void UpdateEnemies(double deltaTime); // 敵の更新
+extern void UpdateBullets(double deltaTime); // 弾の更新
 extern void UpdateUI(); // UIの更新
-extern void UpdateBoss(); // ボスの更新
+extern void UpdateBoss(double deltaTime); // ボスの更新
 extern void UpdateSubUI(); // サブUIの更新
+extern void UpdateStage(double deltaTime);
 
 extern void HitEnemy(); // 敵にヒットした時の処理
 extern void HitBoss(); // ボスにヒットした時の処理
 extern void HitPlayer(); // プレイヤーにヒットした時の処理
 
-extern void shootNomalBullet();
-extern void shootWaveBullet();
-extern void enemyShootBullets();
+extern void shootNomalBullet(double deltaTime);
+extern void shootWaveBullet(double deltaTime);
+extern void enemyShootBullets(double deltaTime);
 
 extern void consumeMagicpoint(BulletType type);
 
@@ -223,8 +228,10 @@ extern void ExecuteSpell(SpellType spell);
 MenuSelection ShowStartMenu();
 
 extern void LoadStageScript(const char* filename);
-extern void UpdateStage();
 extern int current_frame;
+
+
+extern void BossAction(double deltaTime); // ボスの行動を更新
 
 
 

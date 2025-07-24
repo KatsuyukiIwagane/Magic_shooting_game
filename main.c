@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include "system.h"
 
+Uint64 now = 0, last = 0;
+double deltaTime = 0.0;
 
 int main(int argc, char *argv[]){
     /** 初期化処理 **/
@@ -29,6 +31,7 @@ int main(int argc, char *argv[]){
         return 0;
     }
 
+
     /* プレイヤーの初期化 */
     InitPlayer();
     /* プレイヤーの初期化 */
@@ -42,10 +45,13 @@ int main(int argc, char *argv[]){
 
     /* ゲームループ */
     SDL_Event event;
+    last = SDL_GetPerformanceCounter();
     bool running = true;
     LoadStageScript("stage1.csv");
     while (running) {
-        
+        now = SDL_GetPerformanceCounter();
+        deltaTime = (double)(now - last) / SDL_GetPerformanceFrequency();
+        last = now;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = false;
@@ -57,9 +63,9 @@ int main(int argc, char *argv[]){
         }
 
         /*ステージの更新*/
-        UpdateStage();
+        UpdateStage(deltaTime);
         /*オブジェクトの更新 */
-        UpdateOblects();
+        UpdateOblects(deltaTime);
         /* 描画処理 */
         RenderFrame();
     }

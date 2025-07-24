@@ -9,6 +9,8 @@
 Game game_info;
 
 bool boss_appear = true; // ボスが出現するかどうかのフラグ, 動作確認のためにtrueに設定
+float background_scroll_y = 0;
+const int background_scroll_speed = 2;
 
 int InitWindow(const char *bg_file){
     /* SDL_image初期化 */
@@ -73,8 +75,23 @@ void RenderFrame() {
 }
 
 void DrawBackground() {
-    SDL_Rect dest = {0, 0, WD_Width, WD_Height};
-    SDL_RenderCopy(game_info.render, game_info.background, NULL, &dest);
+    int bg_h = WD_Height;
+
+    // 背景1枚目
+    SDL_Rect dest1 = {0, background_scroll_y, WD_Width, bg_h};
+    SDL_RenderCopy(game_info.render, game_info.background, NULL, &dest1);
+
+    // 背景2枚目（下にループして続く部分）
+    SDL_Rect dest2 = {0, background_scroll_y + bg_h, WD_Width, bg_h};
+    SDL_RenderCopy(game_info.render, game_info.background, NULL, &dest2);
+
+    // スクロール値を減少（＝背景が上へ移動）
+    background_scroll_y -= background_scroll_speed;
+
+    // スクロールが1画面分進んだらリセット
+    if (background_scroll_y <= -bg_h) {
+        background_scroll_y = 0;
+    }
 }
 
 void DrawEnemies() {

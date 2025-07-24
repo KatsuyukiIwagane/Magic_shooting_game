@@ -1,30 +1,31 @@
 #include "system.h"
 
-int shoot_interval = 0; // 弾を撃った回数
-void UpdateOblects() {
+float shoot_timer = 0; // 弾を撃った回数
+void UpdateOblects(double deltaTime) {
     // オブジェクトの更新処理をここに実装
     // 敵の位置更新、プレイヤーの状態更新など
-    UpdatePlayer();
-    UpdateEnemies();
-    UpdateBullets();
-    UpdateUI();
-    UpdateSubUI(); // サブUIの更新
+    UpdatePlayer(deltaTime);
+    UpdateEnemies(deltaTime);
+    UpdateBullets(deltaTime);
+    UpdateUI(deltaTime);
+    UpdateSubUI(deltaTime); // サブUIの更新
+    UpdateBoss(deltaTime); // ボスの更新
 }
 
 
-void UpdatePlayer() {
+void UpdatePlayer(double deltaTime) {
     //プレイエリア内のみでプレイヤーは移動可能
     if (player.move.up && player.y > 0) 
-        player.y -= player.speed; // 上に移動
+        player.y -= player.speed * deltaTime; // 上に移動
     if (player.move.down && player.y < PLAY_WD_Height - player.height) 
-        player.y += player.speed; // 下に移動
+        player.y += player.speed * deltaTime; // 下に移動
     if (player.move.left && player.x > 0) 
-        player.x -= player.speed; // 左に移動
+        player.x -= player.speed * deltaTime; // 左に移動
     if (player.move.right && player.x < PLAY_WD_Width - player.width) 
-        player.x += player.speed; // 右に移動
+        player.x += player.speed * deltaTime; // 右に移動
 }
 
-void UpdateEnemies() {
+void UpdateEnemies(double deltaTime) {
     // 敵の更新処理をここに実装
     // 敵の位置や状態の更新
     //仮置きTODO: まともな移動処理にしてね
@@ -32,8 +33,8 @@ void UpdateEnemies() {
     for (int i = 0; i < MAX_ENEMY; i++) {
         if (enemiy_crows[i].health <= 0) continue;
 
-        enemiy_crows[i].x += enemiy_crows[i].direction * enemiy_crows[i].speed;
-        enemiy_crows[i].y += enemiy_crows[i].speed;
+        enemiy_crows[i].x += enemiy_crows[i].direction * enemiy_crows[i].speed * deltaTime;
+        enemiy_crows[i].y += enemiy_crows[i].speed * deltaTime;
 
         //完成版ではKILL
         if (enemiy_crows[i].y > PLAY_WD_Height)
@@ -46,13 +47,13 @@ void UpdateEnemies() {
     }
 }
 
-void UpdateBullets() {
+void UpdateBullets(double deltaTime) {
     switch (player.bullet_type) {
     case BULLET_NOMAL:
-        shootNomalBullet();
+        shootNomalBullet(deltaTime);
         break;
     case BULLET_WAVE:
-        shootWaveBullet();
+        shootWaveBullet(deltaTime);
         break;
     default:
         break;
@@ -61,12 +62,12 @@ void UpdateBullets() {
     HitBoss(); // ボスに弾が当たったかどうかをチェック
 
     //敵の弾打ち処理
-    enemyShootBullets();
+    enemyShootBullets(deltaTime);
 
     HitPlayer();
 }
 
-void UpdateStage() {
+void UpdateStage(double deltaTime) {
     while (stage_event_count > 0 && stage_events[0].frame <= current_frame) {
         StageEvent ev = stage_events[0];
 
@@ -102,6 +103,12 @@ void UpdateStage() {
     }
 
     current_frame++;
+}
+
+void UpdateBoss(double deltaTime) {
+    if (!boss_appear) return; // ボスが出現していない場合は何もしない
+
+    BossAction(deltaTime); // ボスの行動を更新
 }
 
 
