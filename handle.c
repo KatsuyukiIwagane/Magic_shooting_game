@@ -2,7 +2,8 @@
 #include <stdbool.h>
 
 void HandleInput(SDL_Event* event) {
-
+    if (event->key.repeat != 0)
+        return; // キーリピートイベントは無視
     switch (event->type) {
         case SDL_KEYDOWN:
             switch (event->key.keysym.sym) {

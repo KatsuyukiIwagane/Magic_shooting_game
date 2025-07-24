@@ -110,7 +110,7 @@ typedef struct {
 
 //敵の情報
 typedef struct {
-    int x, y;
+    float x, y;
     int width, height; // 敵の幅と高さ
     int health; // 敵のライフ
     int speed; // 敵の移動速度
@@ -134,7 +134,7 @@ typedef struct {
 
 //プレイヤーの情報
 typedef struct {
-    int x, y;
+    float x, y;
     int width, height; // プレイヤーの幅と高さ
     int health; // プレイヤーのライフ
     int magic; // プレイヤーの魔力

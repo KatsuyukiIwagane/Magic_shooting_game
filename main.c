@@ -49,9 +49,6 @@ int main(int argc, char *argv[]){
     bool running = true;
     LoadStageScript("stage1.csv");
     while (running) {
-        now = SDL_GetPerformanceCounter();
-        deltaTime = (double)(now - last) / SDL_GetPerformanceFrequency();
-        last = now;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = false;
@@ -68,6 +65,9 @@ int main(int argc, char *argv[]){
         UpdateOblects(deltaTime);
         /* 描画処理 */
         RenderFrame();
+        now = SDL_GetPerformanceCounter();
+        deltaTime = (double)(now - last) / SDL_GetPerformanceFrequency();
+        last = now;
     }
 
     SDL_Quit();
