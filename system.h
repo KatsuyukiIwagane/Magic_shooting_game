@@ -146,6 +146,12 @@ typedef struct {
     BulletType bullet_type; //弾のタイプ
 } Player;
 
+typedef struct {
+    int frame;           // 出現するタイミング（フレーム数）
+    EnemyType type;      // 敵の種類
+    int x, y;            // 配置座標
+} StageEvent;
+
 extern Game game_info; // ゲームの情報
 extern Player player; // プレイヤーの情報
 extern Boss black; // ボス(黒色)の情報
@@ -159,6 +165,13 @@ extern int enemy_bullet_count; //敵の弾の数
 extern bool boss_appear; // ボスが出現するかどうかのフラグ
 
 extern int shoot_interval; // 弾を撃つ間隔
+
+#define MAX_STAGE_EVENTS 256
+extern StageEvent stage_events[MAX_STAGE_EVENTS];
+extern int stage_event_count;
+extern int current_frame;
+
+extern SDL_Texture* enemy_textures[ENEMY_TYPE_COUNT];
 
 extern int InitWindow(const char *bg_file);
 extern void InitPlayer(); // プレイヤーの初期化
@@ -208,5 +221,13 @@ extern SpellType MatchSpell(const char* input);
 extern void ExecuteSpell(SpellType spell);
 
 MenuSelection ShowStartMenu();
+
+extern void LoadStageScript(const char* filename);
+extern void UpdateStage();
+extern int current_frame;
+
+
+
+
 
 #endif

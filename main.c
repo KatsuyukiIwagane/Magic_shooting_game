@@ -43,7 +43,9 @@ int main(int argc, char *argv[]){
     /* ゲームループ */
     SDL_Event event;
     bool running = true;
+    LoadStageScript("stage1.csv");
     while (running) {
+        
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = false;
@@ -54,7 +56,8 @@ int main(int argc, char *argv[]){
             }
         }
 
-
+        /*ステージの更新*/
+        UpdateStage();
         /*オブジェクトの更新 */
         UpdateOblects();
         /* 描画処理 */

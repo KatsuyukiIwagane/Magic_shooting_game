@@ -37,7 +37,7 @@ void UpdateEnemies() {
 
         //画面最後にいったら一旦はループ（TODO: 完成版ではKILL）
         if (enemiy_crows[i].y > PLAY_WD_Height)
-            enemiy_crows[i].y = 0 - enemiy_crows[i].height;
+            enemiy_crows[i].health = 0; // 画面外に出たら敵を消す
 
         // 画面の端に当たったら反転
         if (enemiy_crows[i].x <= 0 || enemiy_crows[i].x + enemiy_crows[i].width >= PLAY_WD_Width)
@@ -65,6 +65,46 @@ void UpdateBullets() {
 
     HitPlayer();
 }
+
+void UpdateStage() {
+    for (int i = 0; i < stage_event_count; i++) {
+        StageEvent* ev = &stage_events[i];
+        if (ev->frame == current_frame) {
+            // 空いてる敵スロットを探して出現させる
+            for (int j = 0; j < MAX_ENEMY; j++) {
+                if (enemiy_crows[j].health <= 0) {
+                    enemiy_crows[j].x = ev->x;
+                    enemiy_crows[j].y = ev->y;
+                    enemiy_crows[j].health = ENEMY_HEALTH;
+                    enemiy_crows[j].width = ENEMY_WIDTH;
+                    enemiy_crows[j].height = ENEMY_HEIGHT;
+                    enemiy_crows[j].speed = ENEMY_BASE_SPEED;
+                    enemiy_crows[j].texture = enemy_textures[ev->type];
+                    enemiy_crows[j].direction = 1;
+                    enemiy_crows[j].shoot_timer = 0;
+                    enemiy_crows[j].shoot_count = 0;
+                    enemiy_crows[j].cooldown_timer = 0;
+                    break;
+                }
+            }
+
+            // このイベントはもう処理済みとする
+            ev->frame = -1;
+        }
+    }
+
+    // 処理済み（frame == -1）のイベントを詰める
+    int k = 0;
+    for (int i = 0; i < stage_event_count; i++) {
+        if (stage_events[i].frame >= 0) {
+            stage_events[k++] = stage_events[i];
+        }
+    }
+    stage_event_count = k;
+
+    current_frame++;
+}
+
 
 void UpdateUI() {
     // UIの更新処理をここに実装

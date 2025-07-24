@@ -130,6 +130,11 @@ void enemyShootBullets() {
             e->health = 0;
             continue;
         }
+
+        if (e->y < 0 || e->y > PLAY_WD_Height || e->x < 0 || e->x > PLAY_WD_Width) {
+            continue;
+        }
+
         if (enemy_bullet_count < MAX_BULLETS) {
             Bullet* b = &enemy_bullets[enemy_bullet_count++];
             b->x = e->x + e->width / 2 - 5;
