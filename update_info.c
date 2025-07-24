@@ -35,7 +35,7 @@ void UpdateEnemies() {
         enemiy_crows[i].x += enemiy_crows[i].direction * enemiy_crows[i].speed;
         enemiy_crows[i].y += enemiy_crows[i].speed;
 
-        //画面最後にいったら一旦はループ（TODO: 完成版ではKILL）
+        //完成版ではKILL
         if (enemiy_crows[i].y > PLAY_WD_Height)
             enemiy_crows[i].health = 0; // 画面外に出たら敵を消す
 
@@ -67,40 +67,39 @@ void UpdateBullets() {
 }
 
 void UpdateStage() {
-    for (int i = 0; i < stage_event_count; i++) {
-        StageEvent* ev = &stage_events[i];
-        if (ev->frame == current_frame) {
-            // 空いてる敵スロットを探して出現させる
-            for (int j = 0; j < MAX_ENEMY; j++) {
-                if (enemiy_crows[j].health <= 0) {
-                    enemiy_crows[j].x = ev->x;
-                    enemiy_crows[j].y = ev->y;
-                    enemiy_crows[j].health = ENEMY_HEALTH;
-                    enemiy_crows[j].width = ENEMY_WIDTH;
-                    enemiy_crows[j].height = ENEMY_HEIGHT;
-                    enemiy_crows[j].speed = ENEMY_BASE_SPEED;
-                    enemiy_crows[j].texture = enemy_textures[ev->type];
-                    enemiy_crows[j].direction = 1;
-                    enemiy_crows[j].shoot_timer = 0;
-                    enemiy_crows[j].shoot_count = 0;
-                    enemiy_crows[j].cooldown_timer = 0;
-                    break;
-                }
+    while (stage_event_count > 0 && stage_events[0].frame <= current_frame) {
+        StageEvent ev = stage_events[0];
+
+        bool spawned = false;
+        for (int i = 0; i < MAX_ENEMY; i++) {
+            if (enemiy_crows[i].health <= 0) {
+                enemiy_crows[i].x = ev.x;
+                enemiy_crows[i].y = ev.y;
+                enemiy_crows[i].health = ENEMY_HEALTH;
+                enemiy_crows[i].width = ENEMY_WIDTH;
+                enemiy_crows[i].height = ENEMY_HEIGHT;
+                enemiy_crows[i].speed = ENEMY_BASE_SPEED;
+                enemiy_crows[i].texture = enemy_textures[ev.type];
+                enemiy_crows[i].direction = rand() % 2 == 0 ? 1 : -1; // ランダムな方向
+                enemiy_crows[i].shoot_timer = 0;
+                enemiy_crows[i].shoot_count = 0;
+                enemiy_crows[i].cooldown_timer = 0;
+                spawned = true;
+                break;
             }
-
-            // このイベントはもう処理済みとする
-            ev->frame = -1;
         }
-    }
 
-    // 処理済み（frame == -1）のイベントを詰める
-    int k = 0;
-    for (int i = 0; i < stage_event_count; i++) {
-        if (stage_events[i].frame >= 0) {
-            stage_events[k++] = stage_events[i];
+        // 敵を出せなかった（MAX_ENEMY 全部埋まってた）→警告だけ出す
+        if (!spawned) {
+            printf("警告: 敵スロット不足で出現できません (frame: %d)\n", ev.frame);
         }
+
+        // イベントを前詰め
+        for (int i = 1; i < stage_event_count; i++) {
+            stage_events[i - 1] = stage_events[i];
+        }
+        stage_event_count--;
     }
-    stage_event_count = k;
 
     current_frame++;
 }

@@ -21,7 +21,7 @@
 #define PLAYER_MAGIC 600 // プレイヤーの初期魔力
 #define PLAYER_BASE_SPEED 2 // プレイヤーの移動速度
 
-#define MAX_ENEMY 15 //最大敵数
+#define MAX_ENEMY 50 //最大敵数
 #define ENEMY_WIDTH 50 // 敵の幅
 #define ENEMY_HEIGHT 50 // 敵の高さ
 #define ENEMY_HEALTH 3 // 敵のライフ
@@ -166,7 +166,7 @@ extern bool boss_appear; // ボスが出現するかどうかのフラグ
 
 extern int shoot_interval; // 弾を撃つ間隔
 
-#define MAX_STAGE_EVENTS 256
+#define MAX_STAGE_EVENTS 1024
 extern StageEvent stage_events[MAX_STAGE_EVENTS];
 extern int stage_event_count;
 extern int current_frame;

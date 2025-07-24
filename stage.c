@@ -1,6 +1,6 @@
 #include "system.h"
 
-StageEvent stage_events[256];  // 例: ステージイベント最大256個まで
+StageEvent stage_events[MAX_STAGE_EVENTS];  // 例: ステージイベント最大256個まで
 int stage_event_count = 0;
 int current_frame = 0;
 

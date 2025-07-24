@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
     }
 
     /* ウィンドウの作成 */
-    if(InitWindow("image/background.jpg") < 0) {
+    if(InitWindow("image/background.png") < 0) {
         return PrintError("failed to initialize window");
     }
 

@@ -43,8 +43,13 @@ void HitEnemy() {
                 // ライフ減少
                 enemiy_crows[j].health--;
 
-                if (enemiy_crows[j].health <= 0)
-                    enemiy_crows[j].texture = NULL;
+                if (enemiy_crows[j].health <= 0) {
+                    // 敵が倒された場合の処理
+                    enemiy_crows[j].health = 0; // ライフを0に設定
+                    enemiy_crows[j].x = 999; // 画面外に移動
+                    enemiy_crows[j].y = 999; // 画面外に移動
+                }
+
 
                 // 弾を削除
                 for (int k = i; k < bullet_count - 1; k++) {
