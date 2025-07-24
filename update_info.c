@@ -41,8 +41,16 @@ void UpdateEnemies(double deltaTime) {
         enemiy_crows[i].y += enemiy_crows[i].speed * deltaTime;
 
         //完成版ではKILL
-        if (enemiy_crows[i].y > PLAY_WD_Height)
-            enemiy_crows[i].health = 0; // 画面外に出たら敵を消す
+        if (enemiy_crows[i].y > PLAY_WD_Height){
+            enemiy_crows[i].health = 0;
+            enemiy_crows[i].x = -999;
+            enemiy_crows[i].y = -999;
+            enemiy_crows[i].cooldown_timer = 0;
+            enemiy_crows[i].shoot_timer = 0;
+            enemiy_crows[i].shoot_count = 0;
+            enemiy_crows[i].direction = 1; // 方向を初期化
+            continue; // 画面外に出た敵は更新しない
+        }
 
         // 画面の端に当たったら反転
         if (enemiy_crows[i].x <= 0 || enemiy_crows[i].x + enemiy_crows[i].width >= PLAY_WD_Width)

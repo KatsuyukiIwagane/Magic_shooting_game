@@ -25,6 +25,9 @@ int main(int argc, char *argv[]){
         return PrintError(TTF_GetError());
     }
 
+    /* フォントの読み込み */
+    InitFonts();
+
     MenuSelection selected = ShowStartMenu();
     if (selected != MENU_START) {
         SDL_Quit();

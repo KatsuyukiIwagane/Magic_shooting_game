@@ -62,12 +62,9 @@ void shootNomalBullet(double deltaTime) {
     for (int i = 0; i < bullet_count; i++) {
         bullets[i].y -= bullets[i].speed * deltaTime; // 弾を上に移動
         if (bullets[i].y < 0) {
-            // 画面外に出た弾は削除
-            for (int j = i; j < bullet_count - 1; j++) {
-                bullets[j] = bullets[j + 1];
-            }
+            bullets[i] = bullets[bullet_count - 1];
             bullet_count--;
-            i--; // インデックスを調整
+            i--;
         }
     }
 }
@@ -100,11 +97,8 @@ void shootWaveBullet(double deltaTime) {
         bullets[i].x += cos(bullets[i].angle) * bullets[i].speed * deltaTime;
         bullets[i].y += sin(bullets[i].angle) * bullets[i].speed * deltaTime;
 
-        if (bullets[i].y < -bullets[i].height || bullets[i].x < -bullets[i].width || bullets[i].x > WD_Width) {
-            // 画面外に出たら削除
-            for (int j = i; j < bullet_count - 1; j++) {
-                bullets[j] = bullets[j + 1];
-            }
+        if (bullets[i].y < 0) {
+            bullets[i] = bullets[bullet_count - 1];
             bullet_count--;
             i--;
         }
@@ -164,12 +158,9 @@ void enemyShootBullets(double deltaTime) {
         enemy_bullets[i].y += sin(enemy_bullets[i].angle) * enemy_bullets[i].speed * deltaTime;
 
         if (enemy_bullets[i].y > PLAY_WD_Height) {
-            // 画面外なら削除
-            for (int j = i; j < enemy_bullet_count - 1; j++) {
-                enemy_bullets[j] = enemy_bullets[j + 1];
-            }
+            enemy_bullets[i] = enemy_bullets[enemy_bullet_count - 1]; // 最後の弾と入れ替える
             enemy_bullet_count--;
-            i--;
+            i--;  // 再チェック
         }
     }
 }

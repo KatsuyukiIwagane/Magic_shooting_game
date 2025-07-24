@@ -32,7 +32,7 @@
 
 #define MY_PI 3.141592653589793
 
- 
+ TTF_Font* main_font; // メインフォント
 
 //メインメニューの選択肢
 typedef enum {
@@ -183,6 +183,7 @@ extern void InitBoss(); // ボスの初期化
 extern void InitBullets(); // 弾の初期化
 extern void InitUI(); //UI画像の初期化
 extern void InitEnemyTextures(); // 敵のテクスチャを初期化
+extern void InitFonts(); // フォントの初期化
 
 extern int PrintError(const char* str);
 extern void HandleInput(SDL_Event* event);

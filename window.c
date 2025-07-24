@@ -12,6 +12,16 @@ bool boss_appear = true; // ボスが出現するかどうかのフラグ, 動�
 float background_scroll_y = 0;
 const int background_scroll_speed = 120;
 
+TTF_Font* main_font = NULL;
+
+
+void InitFonts() {
+    main_font = TTF_OpenFont("./font/arial.ttf", 24);
+    if (!main_font) {
+        PrintError("フォントの読み込みに失敗しました");
+    }
+}
+
 int InitWindow(const char *bg_file){
     /* SDL_image初期化 */
     if (IMG_INIT_PNG != IMG_Init(IMG_INIT_PNG)) {
@@ -34,7 +44,7 @@ int InitWindow(const char *bg_file){
         SDL_DestroyWindow(game_info.window);
         return PrintError(SDL_GetError());
     }
-    return 0;
+
 }
 
 void RenderFrame(double deltaTime) {
@@ -154,7 +164,6 @@ void DrawBoss() {
 
 void DrawSpellList(SDL_Renderer* renderer) {
 
-    TTF_Font* font = TTF_OpenFont("./font/arial.ttf", 24);
     int start_x = WD_Width - 180;
     int start_y = 20;
     int line_height = 32;
@@ -164,7 +173,7 @@ void DrawSpellList(SDL_Renderer* renderer) {
                           ? (SDL_Color){255, 255, 255, 255} // 白
                           : (SDL_Color){150, 150, 150, 255}; // 灰色
 
-        SDL_Surface* surface = TTF_RenderText_Blended(font, spell_list[i].name, color);
+        SDL_Surface* surface = TTF_RenderText_Blended(main_font, spell_list[i].name, color);
         SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
         SDL_Rect dst = {start_x, start_y + i * line_height, surface->w, surface->h};
