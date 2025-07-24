@@ -10,7 +10,7 @@ Game game_info;
 
 bool boss_appear = true; // ボスが出現するかどうかのフラグ, 動作確認のためにtrueに設定
 float background_scroll_y = 0;
-const int background_scroll_speed = 2;
+const int background_scroll_speed = 120;
 
 int InitWindow(const char *bg_file){
     /* SDL_image初期化 */
@@ -37,12 +37,12 @@ int InitWindow(const char *bg_file){
     return 0;
 }
 
-void RenderFrame() {
+void RenderFrame(double deltaTime) {
     /* 描画のクリア */
     SDL_RenderClear(game_info.render);
 
     /* 背景画像の描画 */
-    DrawBackground();
+    DrawBackground(deltaTime);
 
     /* 敵の描画 */
     DrawEnemies();
@@ -74,7 +74,7 @@ void RenderFrame() {
     SDL_RenderPresent(game_info.render);
 }
 
-void DrawBackground() {
+void DrawBackground(double deltaTime) {
     int bg_h = WD_Height;
 
     // 背景1枚目
@@ -86,7 +86,7 @@ void DrawBackground() {
     SDL_RenderCopy(game_info.render, game_info.background, NULL, &dest2);
 
     // スクロール値を減少（＝背景が上へ移動）
-    background_scroll_y -= background_scroll_speed;
+    background_scroll_y -= background_scroll_speed * deltaTime;
 
     // スクロールが1画面分進んだらリセット
     if (background_scroll_y <= -bg_h) {

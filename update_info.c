@@ -1,6 +1,10 @@
 #include "system.h"
 
 float shoot_timer = 0; // 弾を撃った回数
+double current_time = 0.0;
+StageEvent stage_events[MAX_STAGE_EVENTS];
+int stage_event_count = 0; 
+
 void UpdateOblects(double deltaTime) {
     // オブジェクトの更新処理をここに実装
     // 敵の位置更新、プレイヤーの状態更新など
@@ -68,10 +72,14 @@ void UpdateBullets(double deltaTime) {
 }
 
 void UpdateStage(double deltaTime) {
-    while (stage_event_count > 0 && stage_events[0].frame <= current_frame) {
-        StageEvent ev = stage_events[0];
+    // 経過時間を加算
+    current_time += deltaTime;
 
+    // 時間ベースでイベントを処理
+    while (stage_event_count > 0 && stage_events[0].time_sec <= current_time) {
+        StageEvent ev = stage_events[0];
         bool spawned = false;
+
         for (int i = 0; i < MAX_ENEMY; i++) {
             if (enemiy_crows[i].health <= 0) {
                 enemiy_crows[i].x = ev.x;
@@ -81,7 +89,7 @@ void UpdateStage(double deltaTime) {
                 enemiy_crows[i].height = ENEMY_HEIGHT;
                 enemiy_crows[i].speed = ENEMY_BASE_SPEED;
                 enemiy_crows[i].texture = enemy_textures[ev.type];
-                enemiy_crows[i].direction = rand() % 2 == 0 ? 1 : -1; // ランダムな方向
+                enemiy_crows[i].direction = rand() % 2 == 0 ? 1 : -1;
                 enemiy_crows[i].shoot_timer = 0;
                 enemiy_crows[i].shoot_count = 0;
                 enemiy_crows[i].cooldown_timer = 0;
@@ -90,9 +98,8 @@ void UpdateStage(double deltaTime) {
             }
         }
 
-        // 敵を出せなかった（MAX_ENEMY 全部埋まってた）→警告だけ出す
         if (!spawned) {
-            printf("警告: 敵スロット不足で出現できません (frame: %d)\n", ev.frame);
+            printf("警告: 敵スロット不足で出現できません (time: %.2f 秒)\n", ev.time_sec);
         }
 
         // イベントを前詰め
@@ -101,8 +108,6 @@ void UpdateStage(double deltaTime) {
         }
         stage_event_count--;
     }
-
-    current_frame++;
 }
 
 void UpdateBoss(double deltaTime) {

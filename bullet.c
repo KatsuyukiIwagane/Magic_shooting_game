@@ -117,12 +117,14 @@ void enemyShootBullets(double deltaTime) {
         Enemy* e = &enemiy_crows[i];
 
         if (e->cooldown_timer > 0) {
-            e->cooldown_timer--;
+            e->cooldown_timer -= deltaTime;
+            if (e->cooldown_timer < 0) e->cooldown_timer = 0;
             continue;
         }
 
         if (e->shoot_timer > 0) {
-            e->shoot_timer--;
+            e->shoot_timer -= deltaTime;
+            if (e->shoot_timer < 0) e->shoot_timer = 0;
             continue;
         }
 
@@ -150,9 +152,9 @@ void enemyShootBullets(double deltaTime) {
 
         if (e->shoot_count >= 3) {
             e->shoot_count = 0;
-            e->cooldown_timer = 180; // 60フレーム = 約1秒の間隔
+            e->cooldown_timer = 3.0; // 60フレーム = 約1秒の間隔
         } else {
-            e->shoot_timer = 10; // 10フレームごとに1発
+            e->shoot_timer = 0.167; // 10フレームごとに1発
         }
     }
 

@@ -115,9 +115,9 @@ typedef struct {
     int health; // 敵のライフ
     int speed; // 敵の移動速度
     int direction; // 敵の方向
-    int shoot_timer; // 次の発射までのカウント
+    float shoot_timer; // 次の発射までのカウント
     int shoot_count; // 連続で撃った弾数
-    int cooldown_timer; // クールダウン時間
+    float cooldown_timer; // クールダウン時間
     SDL_Texture* texture; // 敵の画像
     Move move; // 移動状態
 } Enemy;
@@ -147,9 +147,9 @@ typedef struct {
 } Player;
 
 typedef struct {
-    int frame;           // 出現するタイミング（フレーム数）
-    EnemyType type;      // 敵の種類
-    int x, y;            // 配置座標
+    double time_sec;  // 出現時間（秒単位）
+    EnemyType type;
+    int x, y;
 } StageEvent;
 
 extern Game game_info; // ゲームの情報
@@ -187,9 +187,9 @@ extern void InitEnemyTextures(); // 敵のテクスチャを初期化
 extern int PrintError(const char* str);
 extern void HandleInput(SDL_Event* event);
 extern void UpdateOblects();
-extern void RenderFrame(); // 全画面の描画
+extern void RenderFrame(double deltaTime); // 全画面の描画
 
-extern void DrawBackground(); // 背景画像の描画
+extern void DrawBackground(double deltaTime); // 背景画像の描画
 extern void DrawEnemies(); // 敵の描画
 extern void DrawPlayer(); // プレイヤーの描画
 extern void DrawBullets(); // 弾の描画

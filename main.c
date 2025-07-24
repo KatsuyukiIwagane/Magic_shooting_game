@@ -64,7 +64,7 @@ int main(int argc, char *argv[]){
         /*オブジェクトの更新 */
         UpdateOblects(deltaTime);
         /* 描画処理 */
-        RenderFrame();
+        RenderFrame(deltaTime);
         now = SDL_GetPerformanceCounter();
         deltaTime = (double)(now - last) / SDL_GetPerformanceFrequency();
         last = now;
