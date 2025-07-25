@@ -32,7 +32,7 @@
 
 #define MY_PI 3.141592653589793
 
- TTF_Font* main_font; // メインフォント
+extern TTF_Font* main_font; // メインフォント
 
 //メインメニューの選択肢
 typedef enum {

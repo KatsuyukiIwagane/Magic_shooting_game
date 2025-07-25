@@ -44,7 +44,7 @@ int InitWindow(const char *bg_file){
         SDL_DestroyWindow(game_info.window);
         return PrintError(SDL_GetError());
     }
-
+    return 0;
 }
 
 void RenderFrame(double deltaTime) {
