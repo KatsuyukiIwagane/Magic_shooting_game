@@ -78,11 +78,10 @@ MenuSelection ShowStartMenu() {
 
         const char* title = "=== Select Menu ===";
         const char* start = "Press S: START";
-        const char* cont = "Press C: CONTINUE";
         const char* quit = "Press Q: QUIT";
 
-        const char* lines[] = {title, start, cont, quit};
-        for (int i = 0; i < 4; i++) {
+        const char* lines[] = {title, start, quit};
+        for (int i = 0; i < 3; i++) {
             SDL_Surface* surface = TTF_RenderUTF8_Blended(font, lines[i], white);
             SDL_Texture* texture = SDL_CreateTextureFromSurface(game_info.render, surface);
             SDL_Rect dest = {
@@ -105,7 +104,6 @@ MenuSelection ShowStartMenu() {
             if (event.type == SDL_KEYDOWN) {
                 switch (event.key.keysym.sym) {
                     case SDLK_s: selection = MENU_START; break;
-                    case SDLK_c: selection = MENU_CONTINUE; break;
                     case SDLK_q: selection = MENU_QUIT; break;
                 }
             }
