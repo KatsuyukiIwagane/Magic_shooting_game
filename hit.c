@@ -24,7 +24,18 @@ void HitBoss() {
         black.health = 0; // ライフを0に設定
         // ボスの画像を非表示にするなどの処理を追加
         boss_appear = false; // ボスが出現していない状態にする
-        printf("Boss defeated!\n");
+        black.x = -999; // 画面外に移動
+        black.y = -999; // 画面外に移動
+        for (int i = 0; i < MAX_ENEMY; i++) {
+                if (enemiy_crows[i].health > 0) {
+                    enemiy_crows[i].health = 0;
+                    enemiy_crows[i].x = -999; // 画面外に移動
+                    enemiy_crows[i].y = -999; // 画面外に移
+                }
+            }
+        // ゲームクリアの処理
+        DrawGameClear();
+
     }
 }
 

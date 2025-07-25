@@ -28,12 +28,6 @@ int main(int argc, char *argv[]){
     /* フォントの読み込み */
     InitFonts();
 
-    MenuSelection selected = ShowStartMenu();
-    if (selected != MENU_START) {
-        SDL_Quit();
-        return 0;
-    }
-
 
     /* プレイヤーの初期化 */
     InitPlayer();
@@ -45,6 +39,12 @@ int main(int argc, char *argv[]){
     InitBullets();
     /* UI画像の初期化 */
     InitUI();
+
+    MenuSelection selected = ShowStartMenu();
+    if (selected != MENU_START) {
+        SDL_Quit();
+        return 0;
+    }
 
     /* ゲームループ */
     SDL_Event event;

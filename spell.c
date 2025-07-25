@@ -3,8 +3,8 @@
 SpellInput current_spell = {"", 0};
 
 SpellStatus spell_list[SPELL_COUNT] = {
-    {"heal_hitpoints", false},
-    {"elimination_enemies", false}
+    {"Heal", false},
+    {"Elimination", false}
 };
 
 void HandleSpellInput(const SDL_Event* event){
@@ -38,27 +38,41 @@ void HandleSpellInput(const SDL_Event* event){
 }
 
 SpellType MatchSpell(const char* input) {
-    if (strcmp(input, "healhitpoints") == 0) return SPELL_HEAL;
-    if (strcmp(input, "eliminationenemies") == 0) return SPELL_ELIMINATION;
+    if (strcmp(input, "heal") == 0) return SPELL_HEAL;
+    if (strcmp(input, "elimination") == 0) return SPELL_ELIMINATION;
     return SPELL_NONE;
 }
 
 void ExecuteSpell(SpellType spell) {
     switch (spell) {
         case SPELL_HEAL:
-                player.health += 1;
-                spell_list[0].activated = true;
+            if (player.magic >= 50) {
+                if (player.health < PLAYER_HEALTH) {
+                    player.health += 1;
+                    spell_list[0].activated = true;
+                }
+                player.magic -= 50; // 魔力を消費
+            }
+            else {
+                player.mp_short = true; // 魔力不足のフラグを立てる
+            }
             break;
 
         case SPELL_ELIMINATION:
-            for (int i = 0; i < MAX_ENEMY; i++) {
-                if (enemiy_crows[i].health > 0) {
-                    enemiy_crows[i].health = 0;
-                    enemiy_crows[i].x = -999; // 画面外に移動
-                    enemiy_crows[i].y = -999; // 画面外に移
+            if (player.magic >= 100) {
+                for (int i = 0; i < MAX_ENEMY; i++) {
+                    if (enemiy_crows[i].health > 0) {
+                        enemiy_crows[i].health = 0; // 敵を倒す
+                        enemiy_crows[i].x = -999; // 画面外に移動
+                        enemiy_crows[i].y = -999; // 画面外に移動
+                    }
                 }
+                player.magic -= 100; // 魔力を消費
+                spell_list[1].activated = true;
+            } else {
+                player.mp_short = true; // 魔力不足のフラグを立てる
             }
-            spell_list[1].activated = true;
+            
             break;
 
         default:

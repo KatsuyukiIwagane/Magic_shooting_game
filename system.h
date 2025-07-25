@@ -17,7 +17,7 @@
 
 #define PLAYER_WIDTH 50 // プレイヤーの幅
 #define PLAYER_HEIGHT 50 // プレイヤーの高さ
-#define PLAYER_HEALTH 3 // プレイヤーの初期ライフ
+#define PLAYER_HEALTH 100 // プレイヤーの初期ライフ
 #define PLAYER_MAGIC 600 // プレイヤーの初期魔力
 #define PLAYER_BASE_SPEED 120 // プレイヤーの移動速度
 
@@ -28,6 +28,8 @@
 #define ENEMY_BASE_SPEED 60 // 敵の移動速度
 
 #define MAX_SPELL_LENGTH 32 // 最大スペルの長さ
+
+#define MAX_DIALOGUES 100 // 最大ダイアログ数
 
 
 #define MY_PI 3.141592653589793
@@ -152,6 +154,13 @@ typedef struct {
     int x, y;
 } StageEvent;
 
+typedef struct {
+    char character[64];
+    char image_path[128];
+    char text[512];
+    SDL_Texture* character_texture;
+} Dialogue;
+
 extern Game game_info; // ゲームの情報
 extern Player player; // プレイヤーの情報
 extern Boss black; // ボス(黒色)の情報
@@ -173,6 +182,11 @@ extern float shoot_timer; // 弾を撃つ間隔
 extern StageEvent stage_events[MAX_STAGE_EVENTS];
 extern int stage_event_count;
 extern int current_frame;
+
+extern Dialogue dialogues[MAX_DIALOGUES];
+extern int dialogue_count;
+extern int current_dialogue_index;
+extern bool in_dialogue;
 
 extern SDL_Texture* enemy_textures[ENEMY_TYPE_COUNT];
 
@@ -221,6 +235,7 @@ extern void consumeMagicpoint(BulletType type);
 
 extern void DrawMPErrorMessage();
 extern void DrawGameOver();
+extern void DrawGameClear();
 
 extern void HandleSpellInput(const SDL_Event* event);
 extern SpellType MatchSpell(const char* input);
@@ -230,6 +245,11 @@ MenuSelection ShowStartMenu();
 
 extern void LoadStageScript(const char* filename);
 extern int current_frame;
+
+extern void LoadDialogues(const char* filename);
+extern void HandleDialogueInput(SDL_Event* event);
+extern void RenderDialogue();
+extern bool IsDialogueActive();
 
 
 extern void BossAction(double deltaTime); // ボスの行動を更新
